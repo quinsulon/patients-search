@@ -17,13 +17,10 @@ class App extends Component {
       <BrowserRouter>
         <div className='App'>
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <ul>
-              <li><Link to='/'>Home</Link></li>
-              <li><Link to='/patients'>Patients Search</Link></li>
-            </ul>
+            <img src={logo} className="App-logo" alt="logo" /> <br />
+            <Link to='/'>Home</Link><br />
+            <Link to='/patients'>Patients Search</Link>
           </header>
-
           <Route exact path='/' component={Home} />
           <Route path='/patients' component={Patients} />
         </div>
