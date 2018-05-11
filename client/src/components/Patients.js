@@ -34,7 +34,7 @@ export default class Patients extends React.Component {
       <div>
         This will be the list of all patients.
 
-        <Route exact path={props.match.path} render={ () => {
+        <Route exact path={this.props.match.path} render={ () => {
           return (
             <h3>Please enter the name the patient you wish to find and click the 'find' button.</h3>
           )

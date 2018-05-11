@@ -1,8 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+const express = require('express');
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.get('/api/patients', (req, res) => {
+  res.send({ patients: 'Our list of patients.' });
+});
+
+app.listen(port, () => console.log(`Patients server listening on port ${port}.`));

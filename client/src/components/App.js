@@ -15,14 +15,15 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <ul>
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/patients'>Patients Search</Link></li>
-          </ul>
-        </header>
         <div className='App'>
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <ul>
+              <li><Link to='/'>Home</Link></li>
+              <li><Link to='/patients'>Patients Search</Link></li>
+            </ul>
+          </header>
+
           <Route exact path='/' component={Home} />
           <Route path='/patients' component={Patients} />
         </div>
