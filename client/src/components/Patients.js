@@ -7,22 +7,26 @@ import {
 
 function GetPatients ({ match }) {
   console.log('-- GetPatients Func Component --');
-  const name = match.params.name;
+  let name = match.params.name;
+  let list = [];
+
+  if (name === undefined) {
+    name = '';
+  }
+
   const encodedURI = encodeURI(`/api/patients/${name}`);
-  let list = null;
 
   fetch(encodedURI)
     .then((body) => body.json())
     .then((data) => {
       list = data;
-      console.log('data: ', data);
+      console.log('Patient list: ', list);
     })
     .catch((error) => {
       console.warn(error)
       return null
     });
 
-    // console.log('--Patients fetch done: ', this.state.patients);
   return <div>{list}</div>
 }
 
@@ -103,6 +107,7 @@ export default class Patients extends Component {
           )
         }} />
         <Route path='/patients/:name' component={GetPatients} />
+        <Route exact path='/patients' component={GetPatients} />
       </div>
     )
   }
