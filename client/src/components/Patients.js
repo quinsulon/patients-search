@@ -5,37 +5,35 @@ import {
 
 // import './api/patients-list.js';
 
-let list = [];
+// let list = [];
 
-function GetPatients ({ match }) {
+function GetPatients (props) {
   console.log('-- GetPatients Func Component --');
-  let name = match.params.name;
-  // let list = [];
-
-  if (name === undefined) {
+  let name = '';
+  if (props == null) {
+    name = props.match.params.name;
+  } else {
     name = '';
   }
+  // let list = [];
 
   const encodedURI = encodeURI(`/api/patients/${name}`);
 
     fetch(encodedURI)
       .then((body) => body.json())
       .then((data) => {
-        list = data;
-        console.log('Patient list: ', list);
+        props.send(data);
+        console.log('Patient list: ', data);
+        return (
+          <div>TEST</div>
+        )
       })
       .catch((error) => {
         console.warn(error)
         return null;
       });
 
-  return (
-    <div>
-      {list.map( (record) => (
-          <span key={record.patients}>{record.patients}</span>
-        ))}
-    </div>
-  );
+  return null;
 }
 
 // Not using destructuring for ease of understanding over readability.
@@ -51,6 +49,7 @@ export default class Patients extends Component {
 
     this.updateInput = this.updateInput.bind(this);
     this.fetchPatient = this.fetchPatient.bind(this);
+    this.fromGetPatient = this.fromGetPatient.bind(this);
     console.log('--constructor--');
   }
 
@@ -81,7 +80,8 @@ export default class Patients extends Component {
       .then((data) => {
         this.setState({
           loading: false,
-          patients: data
+          patients: data,
+          input: ''
         })
         console.log('Patients: ', this.state.patients);
       })
@@ -89,6 +89,14 @@ export default class Patients extends Component {
         console.warn(error)
         return null
       });
+
+  }
+
+  fromGetPatient(patients) {
+    this.setState({ loading:false, patients });
+  }
+
+  componentDidUpdate() {
 
   }
 
@@ -114,8 +122,12 @@ export default class Patients extends Component {
           )
         }} />
 
-        <Route path='/patients/:name' component={GetPatients} />
-        <Route exact path='/patients' component={GetPatients} />
+        <Route path='/patients/:name' render={ () => {
+          return <GetPatients send={this.fromGetPatient} />
+        }} />
+        <Route exact path='/patients' render={ () => {
+          return <GetPatients send={this.fromGetPatient} />
+        }} />
 
       </div>
     )
