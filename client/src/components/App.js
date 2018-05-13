@@ -19,9 +19,10 @@ class App extends Component {
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" /> <br />
             <Link to='/'>Home</Link><br />
-            <Link to='/patients'>Patients Search</Link>
+            <Link to='/search-patients'>Patients Search</Link>
           </header>
           <Route exact path='/' component={Home} />
+          <Route path='/search-patients' component={Patients} />
           <Route path='/patients' component={Patients} />
         </div>
       </BrowserRouter>

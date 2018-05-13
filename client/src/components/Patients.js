@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
 import {
-  Link,
   Route
 } from 'react-router-dom';
 
 // import './api/patients-list.js';
 
-function Patient ({ props }) {
-  console.log('-- Patient Func Component --');
-  return <h2>{props.match.params.name}</h2>
+function GetPatients ({ match }) {
+  console.log('-- GetPatients Func Component --');
+  const name = match.params.name;
+  const encodedURI = encodeURI(`/api/patients/${name}`);
+  let list = null;
+
+  fetch(encodedURI)
+    .then((body) => body.json())
+    .then((data) => {
+      list = data;
+      console.log('data: ', data);
+    })
+    .catch((error) => {
+      console.warn(error)
+      return null
+    });
+
+    // console.log('--Patients fetch done: ', this.state.patients);
+  return <div>{list}</div>
 }
 
 // Not using destructuring for ease of understanding over readability.
@@ -33,18 +48,21 @@ export default class Patients extends Component {
     this.setState({
       input: value
     });
+    console.log('Patients - input', value);
   }
 
-  fetchPatient(name) {
+  fetchPatient() {
+    const name = this.state.input;
+
     this.setState({
       loading: true
     })
     // if(name === '') {
     //
     // }
-    console.log('--Patients received: ', name);
+    console.log('--Patient name received: ', name);
 
-    const encodedURI = encodeURI(`/api/patients`);
+    const encodedURI = encodeURI(`/api/patients/${name}`);
 
     fetch(encodedURI)
       .then((body) => body.json())
@@ -53,39 +71,38 @@ export default class Patients extends Component {
           loading: false,
           patients: data
         })
-        console.log('data: ', data);
+        console.log('data: ', this.state.patients);
       })
       .catch((error) => {
         console.warn(error)
         return null
       });
 
-      console.log('--Patients fetch done: ', this.state.patients);
+      // console.log('--Patients fetch done: ', this.state.patients);
   }
 
   render() {
     return (
       <div>
         <br />
-        <input
-              type="text"
-              placeholder="Enter Patient's name"
-              value={this.state.input}
-              onChange={this.updateInput}
-        />
-        <button onClick={this.fetchPatient}>Submit</button>
-
-        <Route exact path={this.props.match.path} render={ () => {
+        <Route exact path='/search-patients' render={ () => {
           return (
             <div>
+              <input
+                    type="text"
+                    placeholder="Enter Patient's name"
+                    value={this.state.input}
+                    onChange={this.updateInput}
+              />
+              <button onClick={this.fetchPatient}>Submit</button>
               <h3>
-                <span>Please enter the name of the patient you wish to find and click 'Submit'.</span><br />
-                <span>Or, simply click 'Submit' to return a list of all patients.</span>
+                <span>Please enter the name of the patient you wish to find and click "Submit".</span><br />
+                <span>Or, simply click "Submit" to return a list of all patients.</span>
               </h3>
             </div>
           )
         }} />
-        <Route path={`${this.props.match.path}/:name`} component={Patient} />
+        <Route path='/patients/:name' component={GetPatients} />
       </div>
     )
   }
