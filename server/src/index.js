@@ -12,9 +12,9 @@ const header = {
 const projectDescription = { 'project-description':
   "This project returns a list of patients that match " +
   "the string entered at the '/full_name' endpoint. " +
-  "For example, 'http://localhost:5001/full_name'. " +
+  "Ex. 'http://localhost:5001/full_name'. " +
   "To return all the records of patients, access the root '/' endpoint. " +
-  "For example, 'http://localhost:5001/'. "
+  "Ex. 'http://localhost:5001/'. "
 }
 
 app.get('/api/patients', (req, res) => {

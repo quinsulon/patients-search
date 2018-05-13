@@ -5,10 +5,12 @@ import {
 
 // import './api/patients-list.js';
 
+let list = [];
+
 function GetPatients ({ match }) {
   console.log('-- GetPatients Func Component --');
   let name = match.params.name;
-  let list = [];
+  // let list = [];
 
   if (name === undefined) {
     name = '';
@@ -16,18 +18,24 @@ function GetPatients ({ match }) {
 
   const encodedURI = encodeURI(`/api/patients/${name}`);
 
-  fetch(encodedURI)
-    .then((body) => body.json())
-    .then((data) => {
-      list = data;
-      console.log('Patient list: ', list);
-    })
-    .catch((error) => {
-      console.warn(error)
-      return null
-    });
+    fetch(encodedURI)
+      .then((body) => body.json())
+      .then((data) => {
+        list = data;
+        console.log('Patient list: ', list);
+      })
+      .catch((error) => {
+        console.warn(error)
+        return null;
+      });
 
-  return <div>{list}</div>
+  return (
+    <div>
+      {list.map( (record) => (
+          <span key={record.patients}>{record.patients}</span>
+        ))}
+    </div>
+  );
 }
 
 // Not using destructuring for ease of understanding over readability.
@@ -75,14 +83,13 @@ export default class Patients extends Component {
           loading: false,
           patients: data
         })
-        console.log('data: ', this.state.patients);
+        console.log('Patients: ', this.state.patients);
       })
       .catch((error) => {
         console.warn(error)
         return null
       });
 
-      // console.log('--Patients fetch done: ', this.state.patients);
   }
 
   render() {
@@ -106,8 +113,10 @@ export default class Patients extends Component {
             </div>
           )
         }} />
+
         <Route path='/patients/:name' component={GetPatients} />
         <Route exact path='/patients' component={GetPatients} />
+
       </div>
     )
   }
