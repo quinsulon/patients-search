@@ -38,7 +38,7 @@ app.get('/patients/:name', (req, res) => {
   // Would normally split on the name to get first and last name, etc and then
   // search on each. Searching each name for just whole input due to time.
   // let patientsFoundByFullname = patients.filter( (name) => {
-  let results = patients.filter( (name) => {
+  let results = patients.filter( (patient) => {
      patients.full_name === name || patients.first === name || patients.last === name
   });
 
