@@ -66,9 +66,9 @@ app.get('/patients/mrn/:mrn', (req, res) => {
   // res.send( [{ patients: 'Our list of patients: ' + req.params.name }] );
   const name = req.params.name;
 
-  let patientByMrn = patients.filter( (mrn) => patients.mrn === mrn);
+  let results = patients.filter( (patient) => patients.mrn === mrn);
 
-  res.send(patientByMrn);
+  res.send(results);
 });
 
 app.get('/', (req, res) => {
