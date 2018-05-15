@@ -17,7 +17,7 @@ function GetPatients (props) {
   }
   // let list = [];
 
-  const encodedURI = encodeURI(`/api/patients/${name}`);
+  const encodedURI = encodeURI(`/patients/${name}`);
 
     fetch(encodedURI)
       .then((body) => body.json())
@@ -73,7 +73,7 @@ export default class Patients extends Component {
     // }
     console.log('--Patient name received: ', name);
 
-    const encodedURI = encodeURI(`/api/patients/${name}`);
+    const encodedURI = encodeURI(`/patients/${name}`);
 
     fetch(encodedURI)
       .then((body) => body.json())
