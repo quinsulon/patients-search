@@ -11,12 +11,14 @@ const header = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-const projectDescription = { 'project-description':
+const projectDescription = { 'project_description':
   "This project returns a list of patients that match " +
-  "the string entered at the '/full_name' endpoint. " +
-  "Ex. 'http://localhost:5000/full_name'. " +
+  "the string entered at the '/name' endpoint. " +
+  "Ex. 'http://localhost:5000/A Patient' " +
   "To return all the records of patients, access the root '/' endpoint. " +
-  "Ex. 'http://localhost:5000/'. "
+  "Ex. 'http://localhost:5000/' " +
+  "To return a patient record by mrn, access http://localhost:5000/patients/mrn/MRNnnnn." +
+  "Ex. 'http://localhost:5000/patients/mrn/MRN000000' "
 }
 
 app.get('/patients', (req, res) => {
@@ -30,45 +32,45 @@ app.get('/patients', (req, res) => {
 
 app.get('/patients/:name', (req, res) => {
   res.header(header);
-  // res.send( [{ patients: 'Our list of patients: ' + req.params.name }] );
+
   const name = req.params.name;
-  console.log('server: patient name: ', name);
-  console.log('server: patients db: ', patients);
+
+  // console.log('server: patient name: ', name);
+  // console.log('server: patients db: ', patients);
 
   // Would normally split on the name to get first and last name, etc and then
   // search on each. Searching each name for just whole input due to time.
   // let patientsFoundByFullname = patients.filter( (name) => {
   let results = patients.filter( (patient) => {
-     patients.full_name === name || patients.first === name || patients.last === name
+     if (patient.full_name === name || patient.first === name || patient.last === name) {
+       return true;
+     }
+     return false;
+     // console.log('server: checking patient record: ', patient.full_name);
   });
 
-  // let patientsFoundByFirstname = patients.filter( (name) => patients.first === name);
-  // let patientsFoundByLastname = patients.filter( (name) => patients.last === name);
-  // let results = [];
-  //
-  // if (patientsFoundByFullname) {
-  //   results = patientsFoundByFullname
-  //     .concat(patientsFoundByFirstname)
-  //     .concat(patientsFoundByLastname);
-  // } else if (patientsFoundByFirstname) {
-  //   let results = patientsFoundByFirstname.concat(patientsFoundBylastname);
-  // } else if (patientsFoundByLastname) {
-  //   let results = patientsFoundByLastname;
-  // }
-
   res.send(results);
+  // res.send( [{ patients: 'Our list of patients: ' + req.params.name }] );
 });
 
 // Assuming mrn is unique, not one-to-many mrn-to-persons.
 // However, will allow the case to happen due to time. May check later.
 app.get('/patients/mrn/:mrn', (req, res) => {
   res.header(header);
-  // res.send( [{ patients: 'Our list of patients: ' + req.params.name }] );
-  const name = req.params.name;
 
-  let results = patients.filter( (patient) => patients.mrn === mrn);
+  // Scanned patient data, checking that mrn is valid: starts 'MRN' followed by numbers.
+  // This check should be at the server, but also client so the user can see error msg.
+  // Don't want to assume exact size of MRN for now.
+  let mrn = req.params.mrn;
+  if (!(/^MRN/.test(mrn)) || !/\d$/.test(mrn)) {
+    res.send({'error': 'MRN should be in the format MRNnnnn'});
+    return;
+  };
+
+  let results = patients.filter( (patient) => patient.mrn === mrn);
 
   res.send(results);
+  // res.send( [{ patients: 'Our list of patients: ' + req.params.name }] );
 });
 
 app.get('/', (req, res) => {
