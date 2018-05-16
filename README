@@ -1,10 +1,10 @@
 To install and run this project, follow the steps below:
-1. extract the compresse file to a new dir: tar -xvzf Quinsulon_Israel.tar.gz
+1. extract the compressed file to a new dir: tar -xvzf Quinsulon_Israel.tar.gz
 2. run an npm install
 3. cd into each of the client and server dirs and run an npm install
 4. cd back to the top level dir and run npm run dev
 
 This should run the client and the server simultaneously.
 
-5. Navigate to http://localhost:5001/ for the hompage and patient search form
-6. Navigate to the respective endpoints at http://localhost:5000 for testing those individualy
+5. Navigate to http://localhost:5001/ for the homepage and patient search form
+6. Navigate to the respective endpoints at http://localhost:5000 for testing those individually
