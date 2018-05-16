@@ -1,5 +1,5 @@
-To install and run this project, follow the steps below:
-1. extract the compressed file to a new dir: tar -xvzf Quinsulon_Israel.tar.gz
+To install and run this project, follow the steps below (assume node 10 and npm already install):
+1. extract the compressed file to a new dir and uncompress or git pull down project.
 2. run an npm install
 3. cd into each of the client and server dirs and run an npm install
 4. cd back to the top level dir and run npm run dev
