@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.19.2"
   },
   "scripts": {
     "start": "set PORT=5000 && node ./src/index.js"
