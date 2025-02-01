@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "concurrently": "^3.5.0"
+  },
+  "dependencies": {
+    "patients-search": "file:"
   }
 }
