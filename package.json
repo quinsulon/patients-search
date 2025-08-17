@@ -7,7 +7,7 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\" "
   },
   "devDependencies": {
-    "concurrently": "^3.5.0"
+    "concurrently": "^9.2.0"
   },
   "dependencies": {
     "patients-search": "file:"
